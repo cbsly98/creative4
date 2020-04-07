@@ -1,78 +1,71 @@
 <template>
 <div id="app">
-  <div class="header">
-    <router-link to="/">
-      <div class="logo">
-        <img src="/ordinary.png">
-      </div>
-    </router-link>
-    <div class="title">
-      <h1>Museum of Ordinary Objects</h1>
+  <div id="content-wrap">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/rituals">Rituals</router-link> |
+      <router-link to="/resources">Resources</router-link>
+    </div>
+    <div class="content">
+      <router-view />
     </div>
   </div>
-  <div class="content">
-    <router-view />
-  </div>
   <div class="footer">
-    <router-link to="/admin">Admin</router-link>
-    <br />
-    <br />
-    <a href="https://github.com/BYU-CS-260-Winter-2020/lab-4-museum-of-ordinary-objects-cbsly98">Github</a>
+    <a href="https://github.com/cbsly98/creative4">Github</a>
   </div>
 </div>
 </template>
 
 <style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #DDDDDD;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #DDDDDD;
+}
+
+#nav a.router-link-exact-active {
+  color: #F2a22D;
+}
+
 html {
   box-sizing: border-box;
 }
 
+html {
+  background: url('../public/silhoette-couple.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 body {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
-  background: #fff;
-  padding: 0px;
   margin: 0px;
 }
 
-/* Header */
-.header {
-  display: flex;
-  padding: 10px 100px 0px 100px;
-  background-color: #5BDEFF;
-  color: #1C454F;
-}
-
-.title {
-  margin-top: 5px;
-}
-
-.title h1 {
-  font-size: 30px;
-}
-
-.content {
-  padding: 20px 100px;
-  min-height: 500px;
-}
-
-/* Footer */
 .footer {
-  height: 50px;
-  padding: 20px 100px 0px 100px;
-  background: #e3e3e3;
-  font-size: 12px;
-}
-
-.footer a {
-  color: #000;
-}
-
-h1 {
-  font-size: 20px;
-}
-
-h2 {
-  font-size: 14px;
+  width: 100%;
+  background: #F2a22D;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
 }
 </style>

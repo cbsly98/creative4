@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Admin from '../views/Admin.vue'
+import Rituals from '../views/Rituals.vue'
+import AdminResource from '../views/Admin-Resource.vue'
+import Resources from '../views/Resources.vue'
 
 Vue.use(VueRouter)
 
@@ -11,10 +14,25 @@ const routes = [{
     component: Home
   },
   {
-    path: '/admin',
+    path: '/admin-ritual',
     name: 'admin',
     component: Admin
-  }
+  },
+  {
+    path: '/rituals',
+    name: 'rituals',
+    component: Rituals
+  },
+  {
+    path: '/admin-resource',
+    name: 'adminResource',
+    component: AdminResource
+  },
+  {
+    path: '/resources',
+    name: 'resources',
+    component: Resources
+  },
 ]
 
 const router = new VueRouter({

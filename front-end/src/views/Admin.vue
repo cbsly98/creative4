@@ -1,49 +1,51 @@
 <template>
 <div class="admin">
-  <h1>The Admin Page!</h1>
-  <div class="heading">
-    <div class="circle">1</div>
-    <h2>Add an Item</h2>
-  </div>
+  <router-link to="/admin-resource">Go to Admin-Resource</router-link>
+  <h1>Admin - Ritual</h1>
+  <h2>Add a Ritual</h2>
   <div class="add">
     <div class="form">
       <input v-model="title" placeholder="Title">
       <p></p>
       <textarea v-model="description" placeholder="Description"></textarea>
       <p></p>
+      <textarea v-model="blessings" placeholder="Blessings"></textarea>
+      <p></p>
+      <input v-model="frequency" placeholder="Frequency">
+      <p></p>
       <input type="file" name="photo" @change="fileChanged">
       <button @click="upload">Upload</button>
     </div>
-    <div class="upload" v-if="addItem">
-      <h2>{{addItem.title}}</h2>
-      <img :src="addItem.path" />
+    <div class="upload" v-if="addRitual">
+      <h2>{{addRitual.title}}</h2>
+      <img :src="addRitual.path" />
     </div>
   </div>
-  <div class="heading">
-    <div class="circle">2</div>
-    <h2>Edit/Delete an Item</h2>
-  </div>
+  <h2>Edit/Delete a Ritual</h2>
   <div class="edit">
     <div class="form">
       <input v-model="findTitle" placeholder="Search">
       <div class="suggestions" v-if="suggestions.length > 0">
-        <div class="suggestion" v-for="s in suggestions" :key="s.id" @click="selectItem(s)">{{s.title}}
+        <div class="suggestion" v-for="s in suggestions" :key="s.id" @click="selectRitual(s)">{{s.title}}
         </div>
       </div>
     </div>
-    <div class="upload" v-if="findItem">
-      <input v-model="findItem.title">
+    <div class="upload" v-if="findRitual">
+      <input v-model="findRitual.title">
       <p></p>
-      <textarea v-model="findItem.description" placeholder="add a description here..."></textarea>
+      <textarea v-model="findRitual.description" placeholder="add a description here..."></textarea>
       <p></p>
-      <img :src="findItem.path" />
+      <textarea v-model="findRitual.blessings" placeholder="add blessings here..."></textarea>
+      <p></p>
+      <input v-model="findRitual.frequency" placeholder="add a frequency here...">
+      <p></p>
+      <img :src="findRitual.path" />
     </div>
-    <div class="actions" v-if="findItem">
-      <button @click="deleteItem(findItem)">Delete</button>
-      <button @click="editItem(findItem)">Edit</button>
+    <div class="actions" v-if="findRitual">
+      <button @click="deleteRitual(findRitual)">Delete</button>
+      <button @click="editRitual(findRitual)">Edit</button>
     </div>
   </div>
-
 </div>
 </template>
 
@@ -55,21 +57,25 @@ export default {
     return {
       title: "",
       description: "",
+      blessings: "",
+      frequency: "",
       file: null,
-      addItem: null,
-      items: [],
+      addRitual: null,
+      rituals: [],
       findTitle: "",
-      findItem: null,
+      findRitual: null,
       findDescription: "",
+      findBlessings: "",
+      findFrequency: ""
     }
   },
   created() {
-    this.getItems();
+    this.getRituals();
   },
   computed: {
     suggestions() {
-      let items = this.items.filter(item => item.title.toLowerCase().startsWith(this.findTitle.toLowerCase()));
-      return items.sort((a, b) => a.title > b.title);
+      let rituals = this.rituals.filter(ritual => ritual.title.toLowerCase().startsWith(this.findTitle.toLowerCase()));
+      return rituals.sort((a, b) => a.title > b.title);
     }
   },
   methods: {
@@ -81,48 +87,54 @@ export default {
         const formData = new FormData();
         formData.append('photo', this.file, this.file.name)
         let r1 = await axios.post('/api/photos', formData);
-        let r2 = await axios.post('/api/items', {
+        let r2 = await axios.post('/api/rituals', {
           title: this.title,
           description: this.description,
+          blessings: this.blessings,
+          frequency: this.frequency,
           path: r1.data.path
         });
-        this.addItem = r2.data;
+        this.addRitual = r2.data;
       } catch (error) {
         console.log(error);
       }
     },
-    async getItems() {
+    async getRituals() {
       try {
-        let response = await axios.get("/api/items");
-        this.items = response.data;
+        let response = await axios.get("/api/rituals");
+        this.rituals = response.data;
         return true;
       } catch (error) {
         console.log(error);
       }
     },
-    selectItem(item) {
+    selectRitual(ritual) {
       this.findTitle = "";
       this.findDescription = "";
-      this.findItem = item;
+      this.findBlessings = "";
+      this.findFrequency = "";
+      this.findRitual = ritual;
     },
-    async deleteItem(item) {
+    async deleteRitual(ritual) {
       try {
-        await axios.delete("/api/items/" + item._id);
-        this.findItem = null;
-        this.getItems();
+        await axios.delete("/api/rituals/" + ritual._id);
+        this.findRitual = null;
+        this.getRituals();
         return true;
       } catch (error) {
         console.log(error);
       }
     },
-    async editItem(item) {
+    async editRitual(ritual) {
       try {
-        await axios.put("/api/items/" + item._id, {
-          title: this.findItem.title,
-          description: this.findItem.description,
+        await axios.put("/api/rituals/" + ritual._id, {
+          title: this.findRitual.title,
+          description: this.findRitual.description,
+          blessings: this.findRitual.blessings,
+          frequency: this.findRitual.frequency,
         });
-        this.findItem = null;
-        this.getItems();
+        this.findRitual = null;
+        this.getRituals();
         return true;
       } catch (error) {
         console.log(error);
@@ -138,20 +150,11 @@ export default {
   font-size: 1em;
 }
 
-.heading {
-  display: flex;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-.heading h2 {
-  margin-top: 8px;
-  margin-left: 10px;
-}
-
 .add,
 .edit {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .circle {
@@ -174,15 +177,17 @@ button {
 }
 
 .form {
-  margin-right: 50px;
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 /* Uploaded images */
 .upload h2 {
-  margin: 0px;
+  margin: auto;
 }
 
 .upload img {
+  margin: auto;
   max-width: 300px;
 }
 
@@ -199,5 +204,11 @@ button {
 .suggestion:hover {
   background-color: #5BDEFF;
   color: #fff;
+}
+
+.admin {
+  margin: auto;
+  width: 300px;
+  justify-content: center;
 }
 </style>

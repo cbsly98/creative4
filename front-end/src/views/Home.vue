@@ -1,12 +1,6 @@
 <template>
 <div class="home">
-  <section class="image-gallery">
-    <div class="image" v-for="item in items" :key="item.id">
-      <h2>{{item.title}}</h2>
-      <p>{{item.description}}</p>
-      <img :src="item.path" />
-    </div>
-  </section>
+  <h1>Home</h1>
 </div>
 </template>
 
