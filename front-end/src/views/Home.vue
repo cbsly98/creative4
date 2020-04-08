@@ -1,6 +1,12 @@
 <template>
 <div class="home">
-  <h1>Home</h1>
+  <h1>Rituals of Connection</h1>
+  <p>“A ritual is a structured event or routine that you each enjoy and depend on and that both reflects and reinforces your sense of togetherness.”</p>
+  <p><em>- John Gottman</em></p>
+  <p></p>
+  <br />
+  <br />
+  <p>This website is designed to give ideas of what rituals you could begin in your own relationship. Click on Rituals to see what other couples have done. Click Resources to find more information on rituals.</p>
 </div>
 </template>
 
@@ -33,6 +39,12 @@ export default {
 </script>
 
 <style scoped>
+.home {
+  width: 80%;
+  margin: auto;
+  font-size: 1.5em;
+}
+
 .image h2 {
   font-style: italic;
 }
