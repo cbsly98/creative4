@@ -57,6 +57,7 @@ export default {
   margin: 0 0 1.5em;
   display: inline-block;
   padding: 5px;
+  max-width: 300px;
 }
 
 .image p {
